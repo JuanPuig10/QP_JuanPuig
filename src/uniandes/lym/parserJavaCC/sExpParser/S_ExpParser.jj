@@ -1,0 +1,64 @@
+//
+//  Implements JavaCC parser for simple s-expressions (sums and products)
+//
+
+
+
+
+
+options {
+  IGNORE_CASE = true;
+  STATIC = false;
+}
+PARSER_BEGIN(S_ExpParser)
+package uniandes.lym.parserJavaCC.sExpParser;
+
+import java.util.*;
+ 
+public class S_ExpParser {
+} 
+ 
+PARSER_END(S_ExpParser)
+
+SKIP :
+{
+ 	" " | "\r" | "\t" | "\n"
+}
+ 
+
+TOKEN :
+{
+     < #DIGIT: "0" | "1" | "2"| "3" | "4" | "5" |  "6" | "7" | "8" |"9" >
+|   < #LETTER: ["A"-"Z"] >
+| 	< SQR: "sqr" >
+| 	< CONS: "cons " >
+| 	< LIST: "list" >
+| 	< CAR: "car" >
+| 	< CDR: "cdr" >
+| 	< CHS: "chs" >
+| 	< MAP: "map" >
+| 	< APP: "app" >
+| 	< NIL: "nil" >
+|    < NAME: ( <LETTER>  ( <LETTER > | < DIGIT >)* )>
+|    < NUM: (  < DIGIT >)+ >
+
+
+}
+
+
+
+void sExp():
+{}
+{
+< NUM >
+	< NAME >
+|  "(" ( "+"   (sExp())* 
+|     "*"   (sExp())*
+| 	(< LIST >)?(sExp())+
+| 	< CONS >< NUM >< NUM >
+| 	< CAR > "(" < LIST > (sExp())* ")"
+| 	< SQR > (sExp())*	  
+}
+
+
+
