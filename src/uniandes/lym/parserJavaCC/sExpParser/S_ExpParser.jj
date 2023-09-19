@@ -51,14 +51,18 @@ void sExp():
 {}
 {
 < NUM >
-	< NAME >
+|	< NAME >
 |  "(" ( "+"   (sExp())* 
 |     "*"   (sExp())*
-| 	(< LIST >)?(sExp())+
-| 	< CONS >< NUM >< NUM >
-| 	< CAR > "(" < LIST > (sExp())* ")"
-| 	< SQR > (sExp())*	  
-}
+| 	< CONS >< NUM > (< NIL > / sExp())+
+|	(< LIST >)?(sExp() | < NIL >)+
+|	< SQR > (sExp())*
+|	< CHS > (sExp())*
+|	< CAR > "(" < LIST > (sExp())* ")"
+|	< MAP > (< SQR > | < CONS > | < CAR > | < CDR > | < CHS > | "+" | "*" )(sExp())*
+|	< APP > "(" < LIST > (sExp())*")" "(" < LIST > (sExp())*")"
+|	< CDR > "(" < LIST > (sExp())*")" ) ")"
+} 
 
 
 
